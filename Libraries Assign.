@@ -1,0 +1,539 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "e4a2228e",
+   "metadata": {
+    "editable": true,
+    "slideshow": {
+     "slide_type": ""
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Transaction ID</th>\n",
+       "      <th>Customer ID</th>\n",
+       "      <th>Product Category</th>\n",
+       "      <th>Quantity</th>\n",
+       "      <th>Price</th>\n",
+       "      <th>Date</th>\n",
+       "      <th>Region</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>T001</td>\n",
+       "      <td>C015</td>\n",
+       "      <td>Books</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>167.0</td>\n",
+       "      <td>02-02-2023</td>\n",
+       "      <td>North</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>T002</td>\n",
+       "      <td>C004</td>\n",
+       "      <td>Toys</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>374.0</td>\n",
+       "      <td>17-02-2023</td>\n",
+       "      <td>South</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>T003</td>\n",
+       "      <td>C033</td>\n",
+       "      <td>Furniture</td>\n",
+       "      <td>8.0</td>\n",
+       "      <td>1059.0</td>\n",
+       "      <td>17-05-2024</td>\n",
+       "      <td>South</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>T004</td>\n",
+       "      <td>C047</td>\n",
+       "      <td>Groceries</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>304.0</td>\n",
+       "      <td>11-02-2024</td>\n",
+       "      <td>South</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>T005</td>\n",
+       "      <td>C022</td>\n",
+       "      <td>Books</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>282.0</td>\n",
+       "      <td>27-07-2024</td>\n",
+       "      <td>West</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Transaction ID Customer ID Product Category  Quantity   Price        Date  \\\n",
+       "0           T001        C015            Books       7.0   167.0  02-02-2023   \n",
+       "1           T002        C004             Toys       4.0   374.0  17-02-2023   \n",
+       "2           T003        C033        Furniture       8.0  1059.0  17-05-2024   \n",
+       "3           T004        C047        Groceries       5.0   304.0  11-02-2024   \n",
+       "4           T005        C022            Books       7.0   282.0  27-07-2024   \n",
+       "\n",
+       "  Region  \n",
+       "0  North  \n",
+       "1  South  \n",
+       "2  South  \n",
+       "3  South  \n",
+       "4   West  "
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "df = pd.read_csv(\"C:\\\\Users\\\\Renu Sharma\\\\Downloads\\\\retail_dataset .csv\")\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "106d7bbb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "6b9f5a09",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Transaction ID Customer ID Product Category  Quantity   Price        Date  \\\n",
+      "0           T001        C015            Books       7.0   167.0  02-02-2023   \n",
+      "1           T002        C004             Toys       4.0   374.0  17-02-2023   \n",
+      "2           T003        C033        Furniture       8.0  1059.0  17-05-2024   \n",
+      "3           T004        C047        Groceries       5.0   304.0  11-02-2024   \n",
+      "4           T005        C022            Books       7.0   282.0  27-07-2024   \n",
+      "\n",
+      "  Region  \n",
+      "0  North  \n",
+      "1  South  \n",
+      "2  South  \n",
+      "3  South  \n",
+      "4   West  \n",
+      "<class 'pandas.DataFrame'>\n",
+      "RangeIndex: 100 entries, 0 to 99\n",
+      "Data columns (total 7 columns):\n",
+      " #   Column            Non-Null Count  Dtype  \n",
+      "---  ------            --------------  -----  \n",
+      " 0   Transaction ID    100 non-null    str    \n",
+      " 1   Customer ID       100 non-null    str    \n",
+      " 2   Product Category  97 non-null     str    \n",
+      " 3   Quantity          98 non-null     float64\n",
+      " 4   Price             95 non-null     float64\n",
+      " 5   Date              100 non-null    str    \n",
+      " 6   Region            98 non-null     str    \n",
+      "dtypes: float64(2), str(5)\n",
+      "memory usage: 5.6 KB\n",
+      "None\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 1.display the first 5 rows along with the dataset information to understand its structure.\n",
+    "print(df.head())\n",
+    "print(df.info())    \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "5800efcf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Missing values in each column:\n",
+      "Transaction ID      0\n",
+      "Customer ID         0\n",
+      "Product Category    3\n",
+      "Quantity            2\n",
+      "Price               5\n",
+      "Date                0\n",
+      "Region              2\n",
+      "dtype: int64\n",
+      "Total number of missing values in the dataset: 12\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 2. Inspect the dataset and identify missing values in each column.\n",
+    "# Display the total number of missing values present in the dataset.\n",
+    "missing_values = df.isnull().sum()\n",
+    "print(\"Missing values in each column:\")\n",
+    "print(missing_values)\n",
+    "total_missing = missing_values.sum()\n",
+    "print(f\"Total number of missing values in the dataset: {total_missing}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "e3de5f34",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Missing values after filling:\n",
+      "Quantity    0\n",
+      "Price       0\n",
+      "dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 3. Replace missing values in the Quantity and Price columns \n",
+    "# with their respective mean values using Pandas.\n",
+    "# 3. Replace missing values in Quantity and Price columns with their mean\n",
+    "# Copy-on-Write friendly method\n",
+    "\n",
+    "df['Quantity'] = df['Quantity'].fillna(df['Quantity'].mean())\n",
+    "df['Price'] = df['Price'].fillna(df['Price'].mean())\n",
+    "\n",
+    "\n",
+    "print(\"Missing values after filling:\")\n",
+    "print(df[['Quantity', 'Price']].isnull().sum())\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "381178ec",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dataset after removing rows with missing values in Product Category or Region:\n",
+      "  Transaction ID Customer ID Product Category  Quantity   Price        Date  \\\n",
+      "0           T001        C015            Books       7.0   167.0  02-02-2023   \n",
+      "1           T002        C004             Toys       4.0   374.0  17-02-2023   \n",
+      "2           T003        C033        Furniture       8.0  1059.0  17-05-2024   \n",
+      "3           T004        C047        Groceries       5.0   304.0  11-02-2024   \n",
+      "4           T005        C022            Books       7.0   282.0  27-07-2024   \n",
+      "\n",
+      "  Region  \n",
+      "0  North  \n",
+      "1  South  \n",
+      "2  South  \n",
+      "3  South  \n",
+      "4   West  \n"
+     ]
+    }
+   ],
+   "source": [
+    "# 4. Remove all rows where the Product Category or Region column contains missing values.\n",
+    "df.dropna(subset=['Product Category', 'Region'], inplace=True)\n",
+    "print(\"Dataset after removing rows with missing values in Product Category or Region:\")\n",
+    "print(df.head())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "0f8bf881",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dataset with the new Revenue column:\n",
+      "  Transaction ID Customer ID Product Category  Quantity   Price        Date  \\\n",
+      "0           T001        C015            Books       7.0   167.0  02-02-2023   \n",
+      "1           T002        C004             Toys       4.0   374.0  17-02-2023   \n",
+      "2           T003        C033        Furniture       8.0  1059.0  17-05-2024   \n",
+      "3           T004        C047        Groceries       5.0   304.0  11-02-2024   \n",
+      "4           T005        C022            Books       7.0   282.0  27-07-2024   \n",
+      "\n",
+      "  Region  Revenue  \n",
+      "0  North   1169.0  \n",
+      "1  South   1496.0  \n",
+      "2  South   8472.0  \n",
+      "3  South   1520.0  \n",
+      "4   West   1974.0  \n"
+     ]
+    }
+   ],
+   "source": [
+    "# 5.Create a new column called Revenue using NumPy, where:\n",
+    "# Revenue = Quantity × Price\n",
+    "#Display the updated dataset with the new column\n",
+    "df['Revenue'] = df['Quantity'] * df['Price']\n",
+    "print(\"Dataset with the new Revenue column:\")\n",
+    "print(df.head())\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "34c0abe9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total revenue generated from all transactions: 443110.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 6.Using NumPy, calculate the total revenue generated from all transactions in the dataset.\n",
+    "total_revenue = df['Revenue'].sum()\n",
+    "print(f\"Total revenue generated from all transactions: {total_revenue}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "9034a326",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total revenue generated by each Product Category:\n",
+      "Product Category\n",
+      "Beauty          28691.0\n",
+      "Books           26523.0\n",
+      "Clothing        85006.0\n",
+      "Electronics     83358.0\n",
+      "Furniture      128844.0\n",
+      "Groceries       11978.0\n",
+      "Sports          34484.0\n",
+      "Toys            45270.0\n",
+      "Name: Revenue, dtype: float64\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 7. Group the dataset by Product Category and calculate the total revenue generated by each category.\n",
+    "revenue_by_category = df.groupby('Product Category')['Revenue'].sum()\n",
+    "print(\"Total revenue generated by each Product Category:\")\n",
+    "print(revenue_by_category)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "0674345b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--- Top 3 Product Categories ---\n",
+      "Product Category\n",
+      "Furniture      128844.0\n",
+      "Clothing        85006.0\n",
+      "Electronics     83358.0\n",
+      "Name: Revenue, dtype: float64\n",
+      "\n",
+      "--- Bottom 3 Product Categories ---\n",
+      "Product Category\n",
+      "Beauty       28691.0\n",
+      "Books        26523.0\n",
+      "Groceries    11978.0\n",
+      "Name: Revenue, dtype: float64\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 8.Based on the revenue calculated for each product category, identify the top 3 categories with the\n",
+    "#highest revenue and the bottom 3 categories with the lowest revenue.\n",
+    "\n",
+    "\n",
+    "sorted_revenue = revenue_by_category.sort_values(ascending=False)\n",
+    "\n",
+    "# Top 3 Categories\n",
+    "top_3_categories = sorted_revenue.head(3)\n",
+    "\n",
+    "# Bottom 3 Categories\n",
+    "bottom_3_categories = sorted_revenue.tail(3)\n",
+    "\n",
+    "print(\"--- Top 3 Product Categories ---\")\n",
+    "print(top_3_categories)\n",
+    "\n",
+    "print(\"\\n--- Bottom 3 Product Categories ---\")\n",
+    "print(bottom_3_categories)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "6d3fcbed",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total revenue generated by each Region:\n",
+      "Region\n",
+      "East     128827.0\n",
+      "North    155132.0\n",
+      "South     97471.0\n",
+      "West      80377.0\n",
+      "Name: Revenue, dtype: float64\n",
+      "Region with the highest revenue: North\n",
+      "Region with the lowest revenue: West\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 9. Group the dataset bmmy Region and calculate the total revenue generated in each region. \n",
+    "# Identify the region with the highest revenue and the region with the lowest revenue.\n",
+    "revenue_by_region = df.groupby('Region')['Revenue'].sum()\n",
+    "print(\"Total revenue generated by each Region:\")    \n",
+    "print(revenue_by_region)\n",
+    "highest_revenue_region = revenue_by_region.idxmax()\n",
+    "lowest_revenue_region = revenue_by_region.idxmin()\n",
+    "print(f\"Region with the highest revenue: {highest_revenue_region}\")\n",
+    "print(f\"Region with the lowest revenue: {lowest_revenue_region}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "8faeb112",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Total Monthly Revenue:\n",
+      "Month\n",
+      "1     43994.0\n",
+      "2     33028.0\n",
+      "3     10557.0\n",
+      "4     56478.0\n",
+      "5     27915.0\n",
+      "6     37935.0\n",
+      "7     36919.0\n",
+      "8     76958.0\n",
+      "9     27437.0\n",
+      "10    42097.0\n",
+      "11    25150.0\n",
+      "12    44383.0\n",
+      "Name: Revenue, dtype: float64\n",
+      "\n",
+      "Mean Revenue: 4976.89247311828\n",
+      "Median Revenue: nan\n",
+      "Standard Deviation: 4764.814614548884\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 10. Extract the month from the Date column using Pandas and group the dataset by month \n",
+    "# to calculate the total monthly revenue. Also, calculate the mean, median, and standard deviation \n",
+    "# of the Revenue column using NumPy.\n",
+    "# 10. Extract month and calculate stats\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "df = pd.read_csv('retail_dataset .csv') \n",
+    "df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)\n",
+    "df['Month'] = df['Date'].dt.month\n",
+    "df['Revenue'] = df['Price'] * df['Quantity']\n",
+    "\n",
+    "# Monthly Revenue\n",
+    "monthly_revenue = df.groupby('Month')['Revenue'].sum()\n",
+    "print(\"Total Monthly Revenue:\")\n",
+    "print(monthly_revenue)\n",
+    "\n",
+    "rev_mean = np.mean(df['Revenue'])\n",
+    "rev_median = np.median(df['Revenue'])\n",
+    "rev_std = np.std(df['Revenue'])\n",
+    "\n",
+    "print(f\"\\nMean Revenue: {rev_mean}\")\n",
+    "print(f\"Median Revenue: {rev_median}\")\n",
+    "print(f\"Standard Deviation: {rev_std}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fe3cd663-55f2-43cb-9ded-6c0533ceb43c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "anaconda-2025.12-py312",
+   "language": "python",
+   "name": "conda-env-anaconda-2025.12-py312-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
